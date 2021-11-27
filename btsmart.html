@@ -25,13 +25,7 @@
 			padding: 10px;
 		}
 		input[type=range]{
-			writing-mode: bt-lr; /* IE */
-			-webkit-appearance: slider-vertical; /* WebKit */
-			/* width: 50px;
-			height: 200px;
-			padding: 0 24px;
-			outline: none;
-			background:transparent; */
+			-webkit-appearance: slider-vertical;
 		}
 	</style>
 
@@ -52,17 +46,20 @@
 		<input class="led" disabled="true" type="radio" name="color" id="orange"><label for="orange">Orange</label>
 	</div> -->
 
-	<!-- motor output control -->
+	<!-- Motor output control -->
+
 	<hr>
 	<div style="display:flex; justify-content: space-evenly;">
 		<input class="motor" disabled="true" type="range" min="-100" max="100" value="0" id="m1">
+		<button id="stop" onclick="stop()">Stop</button>
 		<input class="motor" disabled="true" type="range" min="-100" max="100" value="0" id="m2">
 	</div>
 
 	<hr>
 
-	<span>
-		<!-- input control -->
+	<!-- Input control -->
+
+	<div>
 		<span>
 			I1:
 			<input class="ival" disabled="true" type="text" id="i1v" value="-" size="5">
@@ -78,7 +75,7 @@
 			<input class="imode" disabled="true" type="radio" name="i2m" id="i2r"><label for="i2r">Ω</label>
 			<input class="imode" disabled="true" type="radio" name="i2m" id="i2u"><label for="i2u">V</label>
 			<br>
-		</div>
+		</span>
 		<span>
 			I3:
 			<input class="ival" disabled="true" type="text" id="i3v" value="-" size="5">
@@ -86,7 +83,7 @@
 			<input class="imode" disabled="true" type="radio" name="i3m" id="i3r"><label for="i3r">Ω</label>
 			<input class="imode" disabled="true" type="radio" name="i3m" id="i3u"><label for="i3u">V</label>
 			<br>
-		</div>
+		</span>
 		<span>
 			I4:
 			<input class="ival" disabled="true" type="text" id="i4v" value="-" size="5">
@@ -206,6 +203,14 @@
 		function onMotorValueChanged(a)
 		{
 			writeByte("output", a.srcElement.id, a.srcElement.value);
+		}
+
+		function stop(a)
+		{
+			writeByte("output", "m1", 0);
+			writeByte("output", "m2", 0);
+			document.getElementById("m1").value = 0;
+			document.getElementById("m2").value = 0;
 		}
 
 		// Enable all motor processing
